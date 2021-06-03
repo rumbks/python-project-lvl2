@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "hexlet-code"
+version = "0.1.0"
+description = ""
+authors = ["Igor Aukhadeev"]
+packages = [
+    { include = "src" },
+]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+
+[tool.poetry.dev-dependencies]
+
+[tool.poetry.scripts]
+gendiff = "src.main:main"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
