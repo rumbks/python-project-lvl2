@@ -21,7 +21,10 @@ def generate_diff(file1: Path, file2: Path) -> str:
             if json1[key] == json2[key]:
                 diff[key] += [f"  {key}: {json1[key]}"]
             else:
-                diff[key] += [f"- {key}: {json1[key]}", f"+ {key}: {json2[key]}"]
+                diff[key] += [
+                    f"- {key}: {json1[key]}",
+                    f"+ {key}: {json2[key]}",
+                ]
             json2.pop(key)
             continue
         diff[key] += [f"- {key}: {json1[key]}"]

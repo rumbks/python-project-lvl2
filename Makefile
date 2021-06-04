@@ -1,3 +1,5 @@
+-include Makefile.local
+
 install:
 	poetry install
 
@@ -17,4 +19,4 @@ gendiff:
 	poetry run gendiff
 
 lint:
-	poetry run flake8 brain_games
+	poetry run flake8 gendiff
