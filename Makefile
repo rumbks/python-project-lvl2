@@ -22,6 +22,6 @@ lint:
 	poetry run flake8 gendiff
 
 tests:
-	pytest tests
+	poetry run pytest tests
 
 .PHONY: tests

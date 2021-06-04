@@ -2,7 +2,7 @@ import json
 from pathlib import Path
 from typing import Dict
 
-from ._diff import DiffValue, to_json_repr_items
+from ._diff import DiffValue, get_json_repr_items
 
 
 def _get_json_string_representation(diff_dict: Dict[str, DiffValue]) -> str:
@@ -10,7 +10,8 @@ def _get_json_string_representation(diff_dict: Dict[str, DiffValue]) -> str:
     result = []
     for key in sorted(diff_dict.keys()):
         result += [
-            "".join((INDENT, item)) for item in to_json_repr_items(key, diff_dict[key])
+            "".join((INDENT, item))
+            for item in get_json_repr_items(key, diff_dict[key])
         ]
     lines = "\n".join(result)
     return f"{{\n{lines}\n}}"

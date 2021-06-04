@@ -1,13 +1,13 @@
-from collections import namedtuple
-from typing import Dict, Any, List
 import json
+from collections import namedtuple
+from typing import Any, List
 
 DiffValue = namedtuple(
     "DiffValue", ["unchanged", "minus", "plus"], defaults=[None, None, None]
 )
 
 
-def to_json_repr_items(key: str, value: DiffValue) -> List[str]:
+def get_json_repr_items(key: str, value: DiffValue) -> List[str]:
     def encode(item: Any):
         if isinstance(item, str):
             return item
