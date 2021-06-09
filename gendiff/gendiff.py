@@ -3,7 +3,7 @@ from typing import Dict, Any, Union
 
 from .types import DiffValue, get_type, ValueType
 from .view import to_stylish
-from .io import extract_dicts
+from .io import parse_data, load_data, get_extension
 
 
 def build_difference_dict(
@@ -30,6 +30,8 @@ def build_difference_dict(
 
 
 def generate_diff(file1: Path, file2: Path) -> str:
-    dict1, dict2 = extract_dicts(file1, file2)
+    data1, data2 = load_data(file1), load_data(file2)
+    dict1 = parse_data(data1, get_extension(file1))
+    dict2 = parse_data(data2, get_extension(file2))
     diff = build_difference_dict(dict1, dict2)
     return to_stylish(diff)

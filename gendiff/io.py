@@ -1,6 +1,6 @@
 import json
 from pathlib import Path
-from typing import Tuple, Any, Dict, Union, TextIO
+from typing import Tuple, Any, Dict, Union
 import yaml
 
 
@@ -8,19 +8,16 @@ def get_extension(path: Union[str, Path]) -> str:
     return str(path).split(".")[-1]
 
 
-def get_dict(file: TextIO, extension: str) -> Dict[str, Any]:
+def parse_data(data: str, extension: str) -> Dict[str, Any]:
     if extension in ("yml", "yaml"):
-        return yaml.load(file) or {}
+        return yaml.load(data) or {}
     if extension == "json":
-        return json.load(file)
+        return json.loads(data)
     raise RuntimeError("Unknown file format")
 
 
-def extract_dicts(
-    path_to_file1: Path, path_to_file2: Path
-) -> Tuple[Dict[str, Any], Dict[str, Any]]:
-    with open(path_to_file1) as file1:
-        with open(path_to_file2) as file2:
-            dict1 = get_dict(file1, get_extension(path_to_file1))
-            dict2 = get_dict(file2, get_extension(path_to_file2))
-            return dict1, dict2
+def load_data(
+    path_to_file:Path
+) -> str:
+    with open(path_to_file) as file:
+        return file.read()

@@ -15,7 +15,7 @@ def _stylify_scalar(key: str, value: Any, depth: int) -> str:
     return f"{INDENT*depth}{key}: {value}"
 
 
-def _stylify_dict(key, value: Dict[str, Any], depth: int) -> str:
+def _stylify_dict(key: str, value: Dict[str, Any], depth: int) -> str:
     result = [f"{INDENT*depth}{key}: {{"]
     for key in sorted(value.keys()):
         result.append(_format[get_type(value[key])](key, value[key], depth + 1))
