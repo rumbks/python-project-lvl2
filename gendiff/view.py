@@ -1,7 +1,7 @@
 import json
 from typing import Dict, Any
 
-from gendiff._diff import DiffValue, get_type, ValueType, Nothing
+from gendiff.types import DiffValue, get_type, ValueType, Nothing
 
 INDENT = "    "
 
