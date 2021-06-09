@@ -97,8 +97,13 @@ def expected_diff_for_file1_and_empty():
 @pytest.mark.parametrize(
     "path_to_file1,path_to_file2", [(JSON1_PATH, JSON2_PATH), (YAML1_PATH, YAML2_PATH)]
 )
-def test_flat(path_to_file1, path_to_file2, expected_diff_for_file1_and_file2):
+def test_gendiff_file1_and_file2(
+    path_to_file1, path_to_file2, expected_diff_for_file1_and_file2
+):
     diff = generate_diff(path_to_file1, path_to_file2)
+    print(len(diff), len(expected_diff_for_file1_and_file2))
+    print(diff)
+    print(expected_diff_for_file1_and_file2)
     assert diff == expected_diff_for_file1_and_file2
 
 
@@ -110,4 +115,5 @@ def test_flat_file1_and_empty(
     path_to_file1, path_to_file2, expected_diff_for_file1_and_empty
 ):
     diff = generate_diff(path_to_file1, path_to_file2)
+    print(len(diff), len(expected_diff_for_file1_and_empty))
     assert diff == expected_diff_for_file1_and_empty
