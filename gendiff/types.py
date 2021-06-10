@@ -1,16 +1,18 @@
-from collections import namedtuple
 from enum import Enum
-from typing import Any, Dict
-
+from typing import Any, Dict, NamedTuple, Union, Tuple
 
 ValueType = Enum("ValueType", "DICT DIFFVALUE SCALAR")
 
 
-Nothing = type("Nothing")
+DiffStatus = Enum(
+    "DiffStatus",
+    [("REMOVED", "-"), ("ADDED", "+"), ("CHANGED", "-+")],
+)
 
 
-DiffValue = namedtuple(
-    "DiffValue", ["minus", "plus"], defaults=[Nothing, Nothing]
+DiffValue = NamedTuple(
+    "DiffValue",
+    [("status", DiffStatus), ("value", Union[Any, Tuple[Any, Any]])],
 )
 
 

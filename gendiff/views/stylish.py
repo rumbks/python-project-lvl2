@@ -1,7 +1,7 @@
 import json
 from typing import Dict, Any
 
-from gendiff.types import DiffValue, get_type, ValueType, Nothing
+from gendiff.types import DiffValue, DiffStatus, get_type, ValueType
 
 INDENT = "    "
 
@@ -28,14 +28,14 @@ def _stylify_dict(key: str, value: Dict[str, Any], depth: int) -> str:
 
 
 def _stylify_diff_value(key: str, value: DiffValue, depth: int) -> str:
-    result = []
-    if value.minus is not Nothing:
-        stylified = _format[get_type(value.minus)](key, value.minus, depth)
-        result.append(_mark_item(stylified, "-", depth))
+    if value.status in (DiffStatus.REMOVED, DiffStatus.ADDED):
+        stylified = _format[get_type(value.value)](key, value.value, depth)
+        return _mark_item(stylified, value.status.value, depth)
 
-    if value.plus is not Nothing:
-        stylified = _format[get_type(value.plus)](key, value.plus, depth)
-        result.append(_mark_item(stylified, "+", depth))
+    result = []
+    for mark, value_ in zip(("-", "+"), value.value):
+        stylified = _format[get_type(value_)](key, value_, depth)
+        result.append(_mark_item(stylified, mark, depth))
     return "\n".join(result)
 
 
@@ -47,9 +47,8 @@ _format = {
 
 
 def to_stylish(diff_dict: Dict[str, DiffValue]) -> str:
-
-    result = []
+    result = ["{"]
     for key in sorted(diff_dict.keys()):
         result.append(_format[get_type(diff_dict[key])](key, diff_dict[key], 1))
-    lines = "\n".join(result)
-    return f"{{\n{lines}\n}}"
+    result.append("}")
+    return "\n".join(result)

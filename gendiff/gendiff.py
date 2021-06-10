@@ -1,7 +1,7 @@
 from pathlib import Path
 from typing import Dict, Any, Union
 
-from .types import DiffValue, get_type, ValueType
+from .types import DiffValue, DiffStatus, get_type, ValueType
 from gendiff.views import views, STYLISH
 from .io import parse_data, load_data, get_extension
 
@@ -11,10 +11,10 @@ def build_difference_dict(
 ) -> Dict[str, Union[DiffValue, Dict[str, DiffValue], Dict[str, Any]]]:
     diff = {}
     for key in set(dict1.keys()) - set(dict2.keys()):
-        diff[key] = DiffValue(minus=dict1[key])
+        diff[key] = DiffValue(status=DiffStatus.REMOVED, value=dict1[key])
 
     for key in set(dict2.keys()) - set(dict1.keys()):
-        diff[key] = DiffValue(plus=dict2[key])
+        diff[key] = DiffValue(status=DiffStatus.ADDED, value=dict2[key])
 
     for key in set(dict1.keys()) & set(dict2.keys()):
         if dict1[key] == dict2[key]:
@@ -25,7 +25,7 @@ def build_difference_dict(
         ):
             diff[key] = build_difference_dict(dict1[key], dict2[key])
         else:
-            diff[key] = DiffValue(minus=dict1[key], plus=dict2[key])
+            diff[key] = DiffValue(status=DiffStatus.CHANGED, value=(dict1[key], dict2[key]))
     return diff
 
 
