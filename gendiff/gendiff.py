@@ -21,7 +21,7 @@ def build_difference_dict(
             diff[key] = dict1[key]
         elif (
             get_type(dict1[key]) is ValueType.DICT
-            and get_type(dict2[key]) is ValueType.DICT
+            and get_type(dict2[key]) is ValueType.DICT  # noqa: W503
         ):
             diff[key] = build_difference_dict(dict1[key], dict2[key])
         else:

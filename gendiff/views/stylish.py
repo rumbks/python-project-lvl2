@@ -7,11 +7,15 @@ INDENT = "    "
 
 
 def _mark_item(item_repr: str, mark: str, depth: int) -> str:
-    return "".join([f"{INDENT*(depth-1)}  {mark} ", item_repr[len(INDENT) * depth :]])
+    return "".join(
+        [f"{INDENT*(depth-1)}  {mark} ", item_repr[len(INDENT) * depth:]]
+    )
 
 
 def _stylify_scalar(key: str, value: Any, depth: int) -> str:
-    value = value if isinstance(value, str) else json.JSONEncoder().encode(value)
+    value = (
+        value if isinstance(value, str) else json.JSONEncoder().encode(value)
+    )
     return f"{INDENT*depth}{key}: {value}"
 
 

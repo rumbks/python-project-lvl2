@@ -1,6 +1,7 @@
 import json
 from pathlib import Path
-from typing import Tuple, Any, Dict, Union
+from typing import Any, Dict, Union
+
 import yaml
 
 
@@ -17,7 +18,7 @@ def parse_data(data: str, extension: str) -> Dict[str, Any]:
 
 
 def load_data(
-    path_to_file:Path
+    path_to_file: Path
 ) -> str:
     with open(path_to_file) as file:
         return file.read()

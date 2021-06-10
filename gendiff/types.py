@@ -20,4 +20,3 @@ def get_type(value: Any):
     elif isinstance(value, Dict):
         return ValueType.DICT
     return ValueType.SCALAR
-
