@@ -5,7 +5,14 @@ from pytest import fixture
 
 from gendiff import generate_diff
 from gendiff.views import PLAIN
-from tests.fixture_paths import *
+from tests.fixture_paths import (
+    JSON1_PATH,
+    JSON2_PATH,
+    YAML1_PATH,
+    YAML2_PATH,
+    EMPTY_YAML_PATH,
+    EMPTY_JSON_PATH,
+)
 
 generate_diff = partial(generate_diff, format=PLAIN)
 

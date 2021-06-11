@@ -2,7 +2,14 @@ import pytest
 from pytest import fixture
 
 from gendiff import generate_diff
-from tests.fixture_paths import *
+from tests.fixture_paths import (
+    JSON1_PATH,
+    JSON2_PATH,
+    YAML1_PATH,
+    YAML2_PATH,
+    EMPTY_YAML_PATH,
+    EMPTY_JSON_PATH,
+)
 
 
 @fixture()
@@ -50,7 +57,7 @@ def expected_diff_for_file1_and_file2():
         }
         fee: 100500
     }
-}"""
+}"""  # noqa: W291
 
 
 @fixture()
@@ -80,11 +87,12 @@ def expected_diff_for_file1_and_empty():
             id: 45
         }
     }
-}"""
+}"""  # noqa: W291
 
 
 @pytest.mark.parametrize(
-    "path_to_file1,path_to_file2", [(JSON1_PATH, JSON2_PATH), (YAML1_PATH, YAML2_PATH)]
+    "path_to_file1,path_to_file2",
+    [(JSON1_PATH, JSON2_PATH), (YAML1_PATH, YAML2_PATH)],
 )
 def test_gendiff_file1_and_file2(
     path_to_file1, path_to_file2, expected_diff_for_file1_and_file2

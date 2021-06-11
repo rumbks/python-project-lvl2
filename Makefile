@@ -22,7 +22,8 @@ gendiff:
 	poetry run gendiff
 
 lint:
-	poetry run flake8 gendiff
+	poetry run flake8 .
+
 
 tests:
 	poetry run pytest -vv tests
