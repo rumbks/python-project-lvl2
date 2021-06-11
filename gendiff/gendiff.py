@@ -25,7 +25,9 @@ def build_difference_dict(
         ):
             diff[key] = build_difference_dict(dict1[key], dict2[key])
         else:
-            diff[key] = DiffValue(status=DiffStatus.CHANGED, value=(dict1[key], dict2[key]))
+            diff[key] = DiffValue(
+                status=DiffStatus.CHANGED, value=(dict1[key], dict2[key])
+            )
     return diff
 
 

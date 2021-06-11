@@ -19,7 +19,10 @@ def diffvalue_repr(key_path: str, value: DiffValue) -> str:
         from_, to_ = map(simplify_value, value.value)
         return f"Property '{key_path}' was updated. From {from_} to {to_}"
     elif value.status == DiffStatus.ADDED:
-        return f"Property '{key_path}' was added with value: {simplify_value(value.value)}"
+        return (
+            f"Property '{key_path}' was "
+            f"added with value: {simplify_value(value.value)}"
+        )
     elif value.status == DiffStatus.REMOVED:
         return f"Property '{key_path}' was removed"
 
@@ -45,6 +48,7 @@ def to_plain(diff_dict: Dict[str, DiffValue]) -> str:
         layer_items = next_layer(layer_items)
     result = [
         diffvalue_repr(key_path, differences[key_path])
-        for key_path in sorted(differences.keys(), key=lambda key: key.split("."))
+        for key_path in sorted(differences.keys(),
+                               key=lambda key: key.split("."))
     ]
     return "\n".join(result)
