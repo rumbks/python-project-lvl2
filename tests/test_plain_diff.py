@@ -1,11 +1,13 @@
+from functools import partial
+
 import pytest
 from pytest import fixture
 
-from functools import partial
 from gendiff import generate_diff
+from gendiff.views import PLAIN
 from tests.fixture_paths import *
 
-generate_diff = partial(generate_diff, format="plain")
+generate_diff = partial(generate_diff, format=PLAIN)
 
 
 @fixture()
