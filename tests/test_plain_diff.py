@@ -1,11 +1,20 @@
+from functools import partial
+
 import pytest
 from pytest import fixture
 
-from functools import partial
 from gendiff import generate_diff
-from tests.fixture_paths import *
+from gendiff.views import PLAIN
+from tests.fixture_paths import (
+    JSON1_PATH,
+    JSON2_PATH,
+    YAML1_PATH,
+    YAML2_PATH,
+    EMPTY_YAML_PATH,
+    EMPTY_JSON_PATH,
+)
 
-generate_diff = partial(generate_diff, format="plain")
+generate_diff = partial(generate_diff, format=PLAIN)
 
 
 @fixture()
@@ -38,9 +47,6 @@ def test_gendiff_file1_and_file2(
     path_to_file1, path_to_file2, expected_diff_for_file1_and_file2
 ):
     diff = generate_diff(path_to_file1, path_to_file2)
-    print(len(diff), len(expected_diff_for_file1_and_file2))
-    print(diff)
-    print(expected_diff_for_file1_and_file2)
     assert diff == expected_diff_for_file1_and_file2
 
 
@@ -52,5 +58,4 @@ def test_gendiff_file1_and_empty(
     path_to_file1, path_to_file2, expected_diff_for_file1_and_empty
 ):
     diff = generate_diff(path_to_file1, path_to_file2)
-    print(len(diff), len(expected_diff_for_file1_and_empty))
     assert diff == expected_diff_for_file1_and_empty

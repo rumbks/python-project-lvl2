@@ -11,7 +11,7 @@ def get_extension(path: Union[str, Path]) -> str:
 
 def parse_data(data: str, extension: str) -> Dict[str, Any]:
     if extension in ("yml", "yaml"):
-        return yaml.load(data) or {}
+        return yaml.load(data, Loader=yaml.FullLoader) or {}
     if extension == "json":
         return json.loads(data)
     raise RuntimeError("Unknown file format")
