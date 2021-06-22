@@ -12,137 +12,23 @@ from tests.fixture_paths import (
     YAML2_PATH,
     EMPTY_YAML_PATH,
     EMPTY_JSON_PATH,
+    FILE1_FILE2_JSON_DIFF,
+    FILE1_EMPTY_JSON_DIFF,
 )
 
 generate_diff = partial(generate_diff, format=JSON)
 
 
-@fixture()
+@fixture
 def expected_diff_for_file1_and_file2():
-    return """{
-    "common": {
-        "follow": [
-            "DiffStatus.ADDED",
-            false
-        ],
-        "setting1": "Value 1",
-        "setting2": [
-            "DiffStatus.REMOVED",
-            200
-        ],
-        "setting3": [
-            "DiffStatus.CHANGED",
-            [
-                true,
-                null
-            ]
-        ],
-        "setting4": [
-            "DiffStatus.ADDED",
-            "blah blah"
-        ],
-        "setting5": [
-            "DiffStatus.ADDED",
-            {
-                "key5": "value5"
-            }
-        ],
-        "setting6": {
-            "doge": {
-                "wow": [
-                    "DiffStatus.CHANGED",
-                    [
-                        "",
-                        "so much"
-                    ]
-                ]
-            },
-            "key": "value",
-            "ops": [
-                "DiffStatus.ADDED",
-                "vops"
-            ]
-        }
-    },
-    "group1": {
-        "baz": [
-            "DiffStatus.CHANGED",
-            [
-                "bas",
-                "bars"
-            ]
-        ],
-        "foo": "bar",
-        "nest": [
-            "DiffStatus.CHANGED",
-            [
-                {
-                    "key": "value"
-                },
-                "str"
-            ]
-        ]
-    },
-    "group2": [
-        "DiffStatus.REMOVED",
-        {
-            "abc": 12345,
-            "deep": {
-                "id": 45
-            }
-        }
-    ],
-    "group3": [
-        "DiffStatus.ADDED",
-        {
-            "deep": {
-                "id": {
-                    "number": 45
-                }
-            },
-            "fee": 100500
-        }
-    ]
-}"""
+    with FILE1_FILE2_JSON_DIFF.open('r') as f:
+        yield f.read()
 
 
-@fixture()
+@fixture
 def expected_diff_for_file1_and_empty():
-    return """{
-    "common": [
-        "DiffStatus.REMOVED",
-        {
-            "setting1": "Value 1",
-            "setting2": 200,
-            "setting3": true,
-            "setting6": {
-                "doge": {
-                    "wow": ""
-                },
-                "key": "value"
-            }
-        }
-    ],
-    "group1": [
-        "DiffStatus.REMOVED",
-        {
-            "baz": "bas",
-            "foo": "bar",
-            "nest": {
-                "key": "value"
-            }
-        }
-    ],
-    "group2": [
-        "DiffStatus.REMOVED",
-        {
-            "abc": 12345,
-            "deep": {
-                "id": 45
-            }
-        }
-    ]
-}"""
+    with FILE1_EMPTY_JSON_DIFF.open('r') as f:
+        yield f.read()
 
 
 @pytest.mark.parametrize(

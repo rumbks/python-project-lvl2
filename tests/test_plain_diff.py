@@ -12,6 +12,8 @@ from tests.fixture_paths import (
     YAML2_PATH,
     EMPTY_YAML_PATH,
     EMPTY_JSON_PATH,
+    FILE1_FILE2_PLAIN_DIFF,
+    FILE1_EMPTY_PLAIN_DIFF,
 )
 
 generate_diff = partial(generate_diff, format=PLAIN)
@@ -19,24 +21,13 @@ generate_diff = partial(generate_diff, format=PLAIN)
 
 @fixture()
 def expected_diff_for_file1_and_file2():
-    return """Property 'common.follow' was added with value: false
-Property 'common.setting2' was removed
-Property 'common.setting3' was updated. From true to null
-Property 'common.setting4' was added with value: 'blah blah'
-Property 'common.setting5' was added with value: [complex value]
-Property 'common.setting6.doge.wow' was updated. From '' to 'so much'
-Property 'common.setting6.ops' was added with value: 'vops'
-Property 'group1.baz' was updated. From 'bas' to 'bars'
-Property 'group1.nest' was updated. From [complex value] to 'str'
-Property 'group2' was removed
-Property 'group3' was added with value: [complex value]"""
-
+    with FILE1_FILE2_PLAIN_DIFF.open('r') as f:
+        yield f.read()
 
 @fixture()
 def expected_diff_for_file1_and_empty():
-    return """Property 'common' was removed
-Property 'group1' was removed
-Property 'group2' was removed"""
+    with FILE1_EMPTY_PLAIN_DIFF.open('r') as f:
+        yield f.read()
 
 
 @pytest.mark.parametrize(
