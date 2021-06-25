@@ -35,7 +35,7 @@ from tests.fixture_paths import (
                 *repeat(FILE1_FILE2_JSON_DIFF, 2),
                 *repeat(FILE1_EMPTY_JSON_DIFF, 2),
             ],
-            cycle([*repeat(STYLISH, 4), *repeat(PLAIN, 4), *repeat(JSON, 4)]),
+            [*repeat(STYLISH, 4), *repeat(PLAIN, 4), *repeat(JSON, 4)],
         )
     ],
 )
