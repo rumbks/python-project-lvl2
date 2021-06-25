@@ -1,10 +1,19 @@
 import json
-from typing import Dict, Any
+from typing import Dict, Any, Tuple, List, ItemsView
 
 from gendiff.types import DiffValue, DiffStatus
 
-
 VALUE = 1
+
+
+def get_sorted_nodes_with_changes(
+    nodes: ItemsView[str, DiffValue]
+) -> List[Tuple[str, DiffValue]]:
+    return [
+        (key, value)
+        for (key, value) in sorted(nodes)
+        if value.status != DiffStatus.UNCHANGED
+    ]
 
 
 def stringify_value(value: Any) -> str:
@@ -30,10 +39,7 @@ def stringify_node(key_path: str, value: DiffValue) -> str:
         return f"Property '{key_path}' was removed"
     elif value.status == DiffStatus.NESTED:
         result = []
-        for key_, value_ in filter(
-            lambda item: item[VALUE].status != DiffStatus.UNCHANGED,
-            sorted(value.value.items()),
-        ):
+        for key_, value_ in get_sorted_nodes_with_changes(value.value.items()):
             key_path_ = ".".join((key_path, key_))
             result.append(stringify_node(key_path_, value_))
         return "\n".join(result)
@@ -41,5 +47,8 @@ def stringify_node(key_path: str, value: DiffValue) -> str:
 
 def to_plain(diff_dict: Dict[str, DiffValue]) -> str:
     return "\n".join(
-        [stringify_node(key, value) for key, value in sorted(diff_dict.items())]
+        [
+            stringify_node(key, value)
+            for key, value in get_sorted_nodes_with_changes(diff_dict.items())
+        ]
     )
