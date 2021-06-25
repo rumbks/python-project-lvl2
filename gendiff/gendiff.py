@@ -1,15 +1,15 @@
 from pathlib import Path
-from typing import Dict, Any, Union
+from typing import Dict, Any
 
-from .types import DiffValue, DiffStatus, get_type, ValueType
 from gendiff.views import views, STYLISH
 from .io import load_content
 from .parsing import get_extension, parse
+from .types import DiffValue, DiffStatus
 
 
 def build_difference_dict(
     dict1: Dict[str, Any], dict2: Dict[str, Any]
-) -> Dict[str, Union[DiffValue, Dict[str, DiffValue], Dict[str, Any]]]:
+) -> Dict[str, DiffValue]:
     diff = {}
     for key in set(dict1.keys()) - set(dict2.keys()):
         diff[key] = DiffValue(status=DiffStatus.REMOVED, value=dict1[key])
@@ -19,12 +19,14 @@ def build_difference_dict(
 
     for key in set(dict1.keys()) & set(dict2.keys()):
         if dict1[key] == dict2[key]:
-            diff[key] = dict1[key]
-        elif (
-            get_type(dict1[key]) is ValueType.DICT
-            and get_type(dict2[key]) is ValueType.DICT  # noqa: W503
-        ):
-            diff[key] = build_difference_dict(dict1[key], dict2[key])
+            diff[key] = DiffValue(status=DiffStatus.UNCHANGED, value=dict1[key])
+        elif isinstance(dict1[key], Dict) and isinstance(
+            dict2[key], Dict
+        ):  # noqa: W503
+            diff[key] = DiffValue(
+                status=DiffStatus.NESTED,
+                value=build_difference_dict(dict1[key], dict2[key]),
+            )
         else:
             diff[key] = DiffValue(
                 status=DiffStatus.CHANGED, value=(dict1[key], dict2[key])

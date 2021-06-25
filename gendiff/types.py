@@ -6,7 +6,13 @@ ValueType = Enum("ValueType", "DICT DIFFVALUE SCALAR")
 
 DiffStatus = Enum(
     "DiffStatus",
-    [("REMOVED", "-"), ("ADDED", "+"), ("CHANGED", "-+")],
+    [
+        ("REMOVED", "-"),
+        ("ADDED", "+"),
+        ("CHANGED", "-+"),
+        ("UNCHANGED", "="),
+        ("NESTED", "{}"),
+    ],
 )
 
 

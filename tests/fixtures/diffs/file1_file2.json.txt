@@ -1,67 +1,88 @@
 {
-    "common": {
-        "follow": [
-            "DiffStatus.ADDED",
-            false
-        ],
-        "setting1": "Value 1",
-        "setting2": [
-            "DiffStatus.REMOVED",
-            200
-        ],
-        "setting3": [
-            "DiffStatus.CHANGED",
-            [
-                true,
-                null
-            ]
-        ],
-        "setting4": [
-            "DiffStatus.ADDED",
-            "blah blah"
-        ],
-        "setting5": [
-            "DiffStatus.ADDED",
-            {
-                "key5": "value5"
-            }
-        ],
-        "setting6": {
-            "doge": {
-                "wow": [
-                    "DiffStatus.CHANGED",
-                    [
-                        "",
-                        "so much"
-                    ]
-                ]
-            },
-            "key": "value",
-            "ops": [
+    "common": [
+        "DiffStatus.NESTED",
+        {
+            "follow": [
                 "DiffStatus.ADDED",
-                "vops"
+                false
+            ],
+            "setting1": [
+                "DiffStatus.UNCHANGED",
+                "Value 1"
+            ],
+            "setting2": [
+                "DiffStatus.REMOVED",
+                200
+            ],
+            "setting3": [
+                "DiffStatus.CHANGED",
+                [
+                    true,
+                    null
+                ]
+            ],
+            "setting4": [
+                "DiffStatus.ADDED",
+                "blah blah"
+            ],
+            "setting5": [
+                "DiffStatus.ADDED",
+                {
+                    "key5": "value5"
+                }
+            ],
+            "setting6": [
+                "DiffStatus.NESTED",
+                {
+                    "doge": [
+                        "DiffStatus.NESTED",
+                        {
+                            "wow": [
+                                "DiffStatus.CHANGED",
+                                [
+                                    "",
+                                    "so much"
+                                ]
+                            ]
+                        }
+                    ],
+                    "key": [
+                        "DiffStatus.UNCHANGED",
+                        "value"
+                    ],
+                    "ops": [
+                        "DiffStatus.ADDED",
+                        "vops"
+                    ]
+                }
             ]
         }
-    },
-    "group1": {
-        "baz": [
-            "DiffStatus.CHANGED",
-            [
-                "bas",
-                "bars"
+    ],
+    "group1": [
+        "DiffStatus.NESTED",
+        {
+            "baz": [
+                "DiffStatus.CHANGED",
+                [
+                    "bas",
+                    "bars"
+                ]
+            ],
+            "foo": [
+                "DiffStatus.UNCHANGED",
+                "bar"
+            ],
+            "nest": [
+                "DiffStatus.CHANGED",
+                [
+                    {
+                        "key": "value"
+                    },
+                    "str"
+                ]
             ]
-        ],
-        "foo": "bar",
-        "nest": [
-            "DiffStatus.CHANGED",
-            [
-                {
-                    "key": "value"
-                },
-                "str"
-            ]
-        ]
-    },
+        }
+    ],
     "group2": [
         "DiffStatus.REMOVED",
         {
