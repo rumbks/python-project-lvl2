@@ -29,16 +29,17 @@ def stringify_node(key: str, value: DiffValue, depth: int) -> str:
         result.append(f"{INDENT*depth}}}")
         return "\n".join(result)
 
-    elif value.status in (DiffStatus.REMOVED, DiffStatus.ADDED):
-        mark = value.status.value
-        return (
-            f"{INDENT* (depth-1)}  {mark} {key}: "
-            f"{stringify_value(value.value, depth)}"
-        )
-
-    elif value.status == DiffStatus.CHANGED:
+    elif value.status in (
+        DiffStatus.REMOVED,
+        DiffStatus.ADDED,
+        DiffStatus.CHANGED,
+    ):
         result = []
-        for mark, value_ in zip(("-", "+"), value.value):
+        marks = tuple(value.status.value)
+        values = (
+            value.value if isinstance(value.value, tuple) else (value.value,)
+        )
+        for mark, value_ in zip(marks, values):
             result.append(
                 f"{INDENT *(depth-1)}  {mark} {key}: "
                 f"{stringify_value(value_, depth)}"
