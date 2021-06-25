@@ -25,18 +25,24 @@ def stringify_node(key: str, value: DiffValue, depth: int) -> str:
     elif value.status == DiffStatus.NESTED:
         result = [f"{INDENT*depth}{key}: {{"]
         for key_, value_ in sorted(value.value.items()):
-            result.append(stringify_node(key_, value_, depth+1))
+            result.append(stringify_node(key_, value_, depth + 1))
         result.append(f"{INDENT*depth}}}")
         return "\n".join(result)
 
     elif value.status in (DiffStatus.REMOVED, DiffStatus.ADDED):
         mark = value.status.value
-        return f"{INDENT*(depth-1)}  {mark} {key}: {stringify_value(value.value, depth)}"
+        return (
+            f"{INDENT* (depth-1)}  {mark} {key}: "
+            f"{stringify_value(value.value, depth)}"
+        )
 
     elif value.status == DiffStatus.CHANGED:
         result = []
         for mark, value_ in zip(("-", "+"), value.value):
-            result.append(f"{INDENT*(depth-1)}  {mark} {key}: {stringify_value(value_, depth)}")
+            result.append(
+                f"{INDENT *(depth-1)}  {mark} {key}: "
+                f"{stringify_value(value_, depth)}"
+            )
         return "\n".join(result)
 
 
