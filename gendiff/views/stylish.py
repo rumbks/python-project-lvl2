@@ -19,10 +19,7 @@ def stringify_value(value: Union[Any, Dict], depth: int) -> str:
 
 
 def stringify_node(key: str, value: DiffValue, depth: int) -> str:
-    if value.status == DiffStatus.UNCHANGED:
-        return f"{INDENT*depth}{key}: {stringify_value(value.value, depth)}"
-
-    elif value.status == DiffStatus.NESTED:
+    if value.status == DiffStatus.NESTED:
         result = [f"{INDENT*depth}{key}: {{"]
         for key_, value_ in sorted(value.value.items()):
             result.append(stringify_node(key_, value_, depth + 1))
@@ -33,6 +30,7 @@ def stringify_node(key: str, value: DiffValue, depth: int) -> str:
         DiffStatus.REMOVED,
         DiffStatus.ADDED,
         DiffStatus.CHANGED,
+        DiffStatus.UNCHANGED,
     ):
         result = []
         marks = tuple(value.status.value)

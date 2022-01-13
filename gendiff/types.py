@@ -8,7 +8,7 @@ DiffStatus = Enum(
         ("REMOVED", "-"),
         ("ADDED", "+"),
         ("CHANGED", "-+"),
-        ("UNCHANGED", "="),
+        ("UNCHANGED", " "),
         ("NESTED", "{}"),
     ],
 )
