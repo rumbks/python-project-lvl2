@@ -15,16 +15,15 @@ def stringify_value(value: Union[Any, Dict], depth: int) -> str:
             )
         result.append(f"{INDENT*depth}}}")
         return "\n".join(result)
-    return value if isinstance(value, str) else json.JSONEncoder().encode(value)
+    return value if isinstance(value, str) else json.dumps(value)
 
 
 def stringify_node(key: str, node: Node, depth: int) -> str:
     if node.type == NodeType.NESTED:
         result = [f"{INDENT*depth}{key}: {{"]
-        for key_, node_ in sorted(node.value.items()):
+        for key_, node_ in node.value.items():
             result.append(stringify_node(key_, node_, depth + 1))
         result.append(f"{INDENT*depth}}}")
-        return "\n".join(result)
 
     elif node.type in (
         NodeType.REMOVED,
@@ -40,12 +39,14 @@ def stringify_node(key: str, node: Node, depth: int) -> str:
                 f"{INDENT *(depth-1)}  {mark} {key}: "
                 f"{stringify_value(value, depth)}"
             )
-        return "\n".join(result)
+    else:
+        raise RuntimeError(f"Unknown node type: {node.type}")
+    return "\n".join(result)
 
 
-def to_stylish(diff_dict: Dict[str, Node]) -> str:
+def to_stylish(tree: Dict[str, Node]) -> str:
     result = ["{"]
-    for key in sorted(diff_dict.keys()):
-        result.append(stringify_node(key, diff_dict[key], 1))
+    for key in tree.keys():
+        result.append(stringify_node(key, tree[key], 1))
     result.append("}")
     return "\n".join(result)
