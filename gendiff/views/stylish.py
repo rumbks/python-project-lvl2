@@ -1,7 +1,7 @@
 import json
 from typing import Dict, Any, Union
 
-from gendiff.types import DiffValue, DiffStatus
+from gendiff.types import Node, NodeType
 
 INDENT = "    "
 
@@ -18,34 +18,32 @@ def stringify_value(value: Union[Any, Dict], depth: int) -> str:
     return value if isinstance(value, str) else json.JSONEncoder().encode(value)
 
 
-def stringify_node(key: str, value: DiffValue, depth: int) -> str:
-    if value.status == DiffStatus.NESTED:
+def stringify_node(key: str, node: Node, depth: int) -> str:
+    if node.type == NodeType.NESTED:
         result = [f"{INDENT*depth}{key}: {{"]
-        for key_, value_ in sorted(value.value.items()):
-            result.append(stringify_node(key_, value_, depth + 1))
+        for key_, node_ in sorted(node.value.items()):
+            result.append(stringify_node(key_, node_, depth + 1))
         result.append(f"{INDENT*depth}}}")
         return "\n".join(result)
 
-    elif value.status in (
-        DiffStatus.REMOVED,
-        DiffStatus.ADDED,
-        DiffStatus.CHANGED,
-        DiffStatus.UNCHANGED,
+    elif node.type in (
+        NodeType.REMOVED,
+        NodeType.ADDED,
+        NodeType.CHANGED,
+        NodeType.UNCHANGED,
     ):
         result = []
-        marks = tuple(value.status.value)
-        values = (
-            value.value if isinstance(value.value, tuple) else (value.value,)
-        )
-        for mark, value_ in zip(marks, values):
+        marks = tuple(node.type.value)
+        values = node.value if isinstance(node.value, tuple) else (node.value,)
+        for mark, value in zip(marks, values):
             result.append(
                 f"{INDENT *(depth-1)}  {mark} {key}: "
-                f"{stringify_value(value_, depth)}"
+                f"{stringify_value(value, depth)}"
             )
         return "\n".join(result)
 
 
-def to_stylish(diff_dict: Dict[str, DiffValue]) -> str:
+def to_stylish(diff_dict: Dict[str, Node]) -> str:
     result = ["{"]
     for key in sorted(diff_dict.keys()):
         result.append(stringify_node(key, diff_dict[key], 1))

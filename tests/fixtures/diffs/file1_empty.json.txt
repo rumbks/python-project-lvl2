@@ -1,6 +1,6 @@
 {
     "common": [
-        "DiffStatus.REMOVED",
+        "NodeType.REMOVED",
         {
             "setting1": "Value 1",
             "setting2": 200,
@@ -14,7 +14,7 @@
         }
     ],
     "group1": [
-        "DiffStatus.REMOVED",
+        "NodeType.REMOVED",
         {
             "baz": "bas",
             "foo": "bar",
@@ -24,7 +24,7 @@
         }
     ],
     "group2": [
-        "DiffStatus.REMOVED",
+        "NodeType.REMOVED",
         {
             "abc": 12345,
             "deep": {

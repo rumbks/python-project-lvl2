@@ -2,8 +2,8 @@ from enum import Enum
 from typing import Any, NamedTuple, Union, Tuple
 
 
-DiffStatus = Enum(
-    "DiffStatus",
+NodeType = Enum(
+    "NodeType",
     [
         ("REMOVED", "-"),
         ("ADDED", "+"),
@@ -14,7 +14,7 @@ DiffStatus = Enum(
 )
 
 
-DiffValue = NamedTuple(
-    "DiffValue",
-    [("status", DiffStatus), ("value", Union[Any, Tuple[Any, Any]])],
+Node = NamedTuple(
+    "Node",
+    [("type", NodeType), ("value", Union[Any, Tuple[Any, Any]])],
 )

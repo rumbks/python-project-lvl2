@@ -1,44 +1,44 @@
 {
     "common": [
-        "DiffStatus.NESTED",
+        "NodeType.NESTED",
         {
             "follow": [
-                "DiffStatus.ADDED",
+                "NodeType.ADDED",
                 false
             ],
             "setting1": [
-                "DiffStatus.UNCHANGED",
+                "NodeType.UNCHANGED",
                 "Value 1"
             ],
             "setting2": [
-                "DiffStatus.REMOVED",
+                "NodeType.REMOVED",
                 200
             ],
             "setting3": [
-                "DiffStatus.CHANGED",
+                "NodeType.CHANGED",
                 [
                     true,
                     null
                 ]
             ],
             "setting4": [
-                "DiffStatus.ADDED",
+                "NodeType.ADDED",
                 "blah blah"
             ],
             "setting5": [
-                "DiffStatus.ADDED",
+                "NodeType.ADDED",
                 {
                     "key5": "value5"
                 }
             ],
             "setting6": [
-                "DiffStatus.NESTED",
+                "NodeType.NESTED",
                 {
                     "doge": [
-                        "DiffStatus.NESTED",
+                        "NodeType.NESTED",
                         {
                             "wow": [
-                                "DiffStatus.CHANGED",
+                                "NodeType.CHANGED",
                                 [
                                     "",
                                     "so much"
@@ -47,11 +47,11 @@
                         }
                     ],
                     "key": [
-                        "DiffStatus.UNCHANGED",
+                        "NodeType.UNCHANGED",
                         "value"
                     ],
                     "ops": [
-                        "DiffStatus.ADDED",
+                        "NodeType.ADDED",
                         "vops"
                     ]
                 }
@@ -59,21 +59,21 @@
         }
     ],
     "group1": [
-        "DiffStatus.NESTED",
+        "NodeType.NESTED",
         {
             "baz": [
-                "DiffStatus.CHANGED",
+                "NodeType.CHANGED",
                 [
                     "bas",
                     "bars"
                 ]
             ],
             "foo": [
-                "DiffStatus.UNCHANGED",
+                "NodeType.UNCHANGED",
                 "bar"
             ],
             "nest": [
-                "DiffStatus.CHANGED",
+                "NodeType.CHANGED",
                 [
                     {
                         "key": "value"
@@ -84,7 +84,7 @@
         }
     ],
     "group2": [
-        "DiffStatus.REMOVED",
+        "NodeType.REMOVED",
         {
             "abc": 12345,
             "deep": {
@@ -93,7 +93,7 @@
         }
     ],
     "group3": [
-        "DiffStatus.ADDED",
+        "NodeType.ADDED",
         {
             "deep": {
                 "id": {
