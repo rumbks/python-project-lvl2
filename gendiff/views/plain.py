@@ -1,18 +1,11 @@
 import json
-from typing import Dict, Any, Tuple, Iterable
+from typing import Dict, Any
+from functools import partial
 
 from gendiff.types import Node, NodeType
 
-NODE = 1
 
-
-def filter_unchanged_nodes(
-    key_node_pairs: Iterable[Tuple[str, Node]]
-) -> Iterable[Tuple[str, Node]]:
-    return filter(
-        lambda key_node_pair: key_node_pair[NODE].type != NodeType.UNCHANGED,
-        key_node_pairs,
-    )
+filter_unchanged = partial(filter, None)
 
 
 def stringify_value(value: Any) -> str:
@@ -32,16 +25,19 @@ def stringify_node(key_path: str, node: Node) -> str:
         )
     elif node.type == NodeType.REMOVED:
         return f"Property '{key_path}' was removed"
+    elif node.type == NodeType.UNCHANGED:
+        return ""
     elif node.type == NodeType.NESTED:
         result = []
-        for key_, value_ in filter_unchanged_nodes(node.value.items()):
+        for key_, value_ in node.value.items():
             key_path_ = f"{key_path}.{key_}"
             result.append(stringify_node(key_path_, value_))
-        return "\n".join(result)
+        return "\n".join(filter_unchanged(result))
 
 
 def to_plain(tree: Dict[str, Node]) -> str:
     return "\n".join(
-        stringify_node(key, node)
-        for key, node in filter_unchanged_nodes(tree.items())
+        filter_unchanged(
+            stringify_node(key, node) for key, node in tree.items()
+        )
     )
